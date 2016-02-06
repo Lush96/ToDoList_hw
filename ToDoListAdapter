@@ -1,0 +1,83 @@
+package com.lclark.todolist;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.TextView;
+
+/**
+ * Created by Garrett on 2/5/2016.
+ */
+public class ToDoListAdapter extends BaseAdapter {
+
+
+/* I HAVE NO IDEA IF THIS WORKS. It's completely based off of the pokemon list app we made. Theoretically it should work,
+but we haven't finised the interface side of the app so there's no way of knowing right now*/
+
+
+
+    private Week week;
+    private Context mContext;
+
+    public ToDoListAdapter(Context context, Week week) {
+        this.week = week;
+        mContext = context;
+    }
+
+    private static class ViewHolder {
+        TextView currentDay, prevDay, nextDay, plans;
+    }
+
+    @Override
+    public int getCount() {
+        return week.getDayNames().length;
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return null;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+
+        ViewHolder viewHolder;
+        if (convertView == null) {
+            convertView = inflater.inflate(R.layout.activity_main, parent, false);
+
+            TextView currentDayTextView = (TextView) convertView.findViewById(R.id.current_day_textView);
+            Button nextDayButton = (Button) convertView.findViewById(R.id.next_day_button);
+            Button prevDayButton = (Button) convertView.findViewById(R.id.prev_day_button);
+            TextView dayPlans = (TextView) convertView.findViewById(R.id.input_editText);
+
+            viewHolder = new ViewHolder();
+            viewHolder.currentDay = currentDayTextView;
+            viewHolder.prevDay = prevDayButton;
+            viewHolder.nextDay = nextDayButton;
+            viewHolder.plans = dayPlans;
+
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
+
+        viewHolder.currentDay.setText(week.getCurrentDay());
+        viewHolder.nextDay.setText(week.getNextDay());
+        viewHolder.prevDay.setText(week.getPrevDay());
+        viewHolder.plans.setText(week.getDay().getPlans());
+
+
+        return convertView;
+    }
+
+}
